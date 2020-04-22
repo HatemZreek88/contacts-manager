@@ -17,6 +17,8 @@ const indexRoute = require("./routes/indexRoute");
 // import contacts Route
 const contactsRoute = require("./routes/contactsRoute");
 
+// import user Route
+const usersRoute = require("./routes/usersRoute");
 // 3. config ports
 
 // tell the web server what port to listen on.
@@ -34,6 +36,9 @@ app.use("/", indexRoute);
 
 // create contacts Route
 app.use("/contacts", contactsRoute);
+
+// create users Route
+app.use("/users", usersRoute);
 
 // 6. errors management
 

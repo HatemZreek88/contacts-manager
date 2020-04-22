@@ -1,0 +1,36 @@
+{
+  "contacts": [
+    {
+      "email": "lubna.abbas@gmail.com",
+      "address": "Stollberger Street 66, Berlin, Germany",
+      "PLZ": "12627",
+      "id": "Wed Apr 22 2020 15:02:04 GMT+0200 (Central European Summer Time)"
+    },
+    {
+      "email": "adam.zreek@gmail.com",
+      "address": "Stollberger Street 66, Berlin, Germany",
+      "PLZ": "12627",
+      "id": "Wed Apr 22 2020 15:02:50 GMT+0200 (Central European Summer Time)"
+    },
+    {
+      "email": "adam.zreek@gmail.com",
+      "address": "Stollberger Street 66, Berlin, Germany",
+      "PLZ": "12627",
+      "id": "Wed Apr 22 2020 15:09:03 GMT+0200 (Central European Summer Time)"
+    },
+    {
+      "email": "1111@gmail.com",
+      "address": "Stollberger Street 66, Berlin, Germany",
+      "PLZ": "12627",
+      "id": "1587563109679"
+    }
+  ],
+  "users": [
+    {
+      "email": "adam.zreek@gmail.com",
+      "address": "Stollberger Street 66, Berlin, Germany",
+      "PLZ": "12627",
+      "id": "Wed Apr 22 2020 15:07:45 GMT+0200 (Central European Summer Time)"
+    }
+  ]
+}

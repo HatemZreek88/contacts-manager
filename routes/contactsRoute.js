@@ -8,6 +8,7 @@ const Route = require("express").Router();
 //import contacts Controllers
 const {
   getContacts,
+  getContact,
   postContact,
   putContact,
   deleteContact,
@@ -17,6 +18,7 @@ const {
 
 // create GET request for contacts Route
 Route.get("/", getContacts);
+Route.get("/:id", getContact);
 
 // create POST request for contacts Route
 Route.post("/", postContact);
