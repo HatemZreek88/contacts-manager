@@ -6,6 +6,8 @@ const express = require("express");
 // create the server
 const app = express();
 
+// import mongoose
+const mongoose = require("mongoose");
 // import http-errors
 const createError = require("http-errors");
 
@@ -23,6 +25,14 @@ const usersRoute = require("./routes/usersRoute");
 
 // tell the web server what port to listen on.
 const port = process.env.PORT || 3000;
+
+// connect the app.js to the database like seed.js
+mongoose.connect("mongodb://127.0.0.1:27017/my-database", {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
+mongoose.connection.on("error", (err) => console.log(err));
+mongoose.connection.on("open", () => console.log("database is connected "));
 
 // 4. convert data
 
