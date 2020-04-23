@@ -39,13 +39,19 @@ exports.getUser = async (req, res, next) => {
 exports.postUser = async (req, res, next) => {
   // we want to see the body for the post
   // console.log(req.body);
-  let users = db
-    .get("users")
-    .push(req.body)
-    .last()
-    .assign({ id: new Date().getTime().toString() })
-    .write();
-  res.json({ success: true, user: req.body });
+  // let users = db
+  //   .get("users")
+  //   .push(req.body)
+  //   .last()
+  //   .assign({ id: new Date().getTime().toString() })
+  //   .write();
+  try {
+    const user = new User(req.body);
+    await user.save();
+    res.json({ success: true, user: user });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.putUser = (req, res, next) => {
