@@ -1,3 +1,5 @@
+// stage - 4
+
 // 1. import the modules
 
 // import express
@@ -8,8 +10,12 @@ const app = express();
 
 // import mongoose
 const mongoose = require("mongoose");
+
 // import http-errors
 const createError = require("http-errors");
+
+// import morgan
+const logger = require("morgan");
 
 // 2. import the files
 
@@ -30,6 +36,7 @@ const port = process.env.PORT || 3000;
 mongoose.connect("mongodb://127.0.0.1:27017/my-database", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
+  useFindAndModify: false,
 });
 mongoose.connection.on("error", (err) => console.log(err));
 mongoose.connection.on("open", () => console.log("database is connected "));
@@ -38,6 +45,9 @@ mongoose.connection.on("open", () => console.log("database is connected "));
 
 // convert the data received from client to json format
 app.use(express.json());
+
+// use morgan middleware
+app.use(logger("dev"));
 
 // 5. create Routes
 

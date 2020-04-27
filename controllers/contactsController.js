@@ -1,46 +1,65 @@
-//t2
-const db = require("../models/db.js");
+//stage 4
 
+// import contactSchema
+const Contact = require("../models/contactSchema");
+
+// import http-errors
 const createError = require("http-errors");
-//t2
-exports.getContacts = (req, res, next) => {
-  let contacts = db.get("contacts").value();
-  res.json({ success: true, contacts: contacts });
-};
-// t2
-exports.getContact = (req, res, next) => {
-  const { id } = req.params;
-  let contact = db.get("contacts").find({ id }).value();
-  res.json({ success: true, contact: contact });
-};
-exports.postContact = (req, res, next) => {
-  // we want to see the body for the post
-  console.log(req.body);
-  let contacts = db
-    .get("contacts")
-    .push(req.body)
-    .last()
-    .assign({ id: new Date().getTime().toString() })
-    .write();
-  res.json({ success: true, contact: req.body });
+
+//requests functions
+exports.getContacts = async (req, res, next) => {
+  try {
+    const contacts = await Contact.find();
+    res.json({ success: true, contacts: contacts });
+  } catch (err) {
+    next(err);
+  }
 };
 
-exports.putContact = (req, res, next) => {
+exports.getContact = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const contact = await Contact.findById(id);
+    if (!contact) throw createError(404);
+    res.json({ success: true, contact: contact });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.postContact = async (req, res, next) => {
+  try {
+    const contact = new Contact(req.body);
+    await contact.save();
+    res.json({ success: true, contact: contact });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.putContact = async (req, res, next) => {
   const { id } = req.params;
   const contact = req.body;
-  contact.id = new Date().getTime().toString();
-  db.get("contacts").find({ id }).assign(contact).write();
-  res.json({ success: true, contact: contact });
+  try {
+    const updatecontact = await Contact.findByIdAndUpdate(id, contact, {
+      new: true,
+    });
+    if (!updatecontact) throw createError(500);
+    res.json({ success: true, contact: updatecontact });
+  } catch (err) {
+    next(err);
+  }
 };
 
-exports.deleteContact = (req, res, next) => {
-  console.log(req.params.id);
-
-  //everywhere we need error type the if and next 500
-  if (req.params.id != "1") {
-    next(createError(500));
-  }
+exports.deleteContact = async (req, res, next) => {
   const { id } = req.params;
-  let contact = db.get("contacts").remove({ id }).write();
-  res.json({ success: true, contact: contact });
+  try {
+    const contact = await Contact.findByIdAndDelete(id);
+    if (!contact) {
+      throw createError(500);
+    }
+    res.json({ success: true, contact: contact });
+  } catch (err) {
+    next(err);
+  }
 };
