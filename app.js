@@ -1,4 +1,4 @@
-// stage - 4
+// stage - 5
 
 // 1. import the modules
 
@@ -27,6 +27,10 @@ const contactsRoute = require("./routes/contactsRoute");
 
 // import user Route
 const usersRoute = require("./routes/usersRoute");
+
+// import setCors middle-ware
+const { setCors } = require("./middleware/security");
+
 // 3. config ports
 
 // tell the web server what port to listen on.
@@ -48,6 +52,9 @@ app.use(express.json());
 
 // use morgan middleware
 app.use(logger("dev"));
+
+// use setCors middleware
+app.use(setCors);
 
 // 5. create Routes
 

@@ -1,19 +1,13 @@
-// 1. import Routes
+// Stage - 5
 
-// import index Route
+// import indexRoute
 const Route = require("express").Router();
 
-// 2. import controllers
-
-//import index Controller
+//import indexController
 const { indexController } = require("../controllers/indexController");
 
-// 3. requests management
-
-// create GET request for index Route
+// indexRoute Methods
 Route.get("/", indexController);
 
-// 4. export Routes
-
-// export index Route
+//export indexRoute
 module.exports = Route;

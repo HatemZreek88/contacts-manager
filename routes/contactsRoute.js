@@ -1,6 +1,6 @@
-// 1. import Routes
+// stage - 5
 
-// import contacts Route
+// import contactsRoute
 const Route = require("express").Router();
 
 // 2. import controllers
@@ -14,6 +14,9 @@ const {
   deleteContact,
 } = require("../controllers/contactsController");
 
+// import validateInputs middleware
+const { validateContacts } = require("../middleware/contactsValidator");
+
 // 3. requests management
 
 // create GET request for contacts Route
@@ -21,7 +24,7 @@ Route.get("/", getContacts);
 Route.get("/:id", getContact);
 
 // create POST request for contacts Route
-Route.post("/", postContact);
+Route.post("/", validateContacts(), postContact);
 
 // create PUT request for contacts Route
 Route.put("/:id", putContact);

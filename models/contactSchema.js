@@ -1,7 +1,10 @@
-// stage - 4
+// stage - 5
 
 // import mongoose
 const mongoose = require("mongoose");
+
+//import uniqueValidator
+const uniqueValidator = require("mongoose-unique-validator");
 
 //destructure Schema
 const { Schema } = mongoose;
@@ -16,9 +19,12 @@ const ContactSchema = new Schema({
   region: { type: String, required: true },
   postCode: { type: String, required: true },
   country: { type: String, required: true },
-  phoneNo: { type: String, required: true },
-  email: { type: String, required: true },
+  phoneNo: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
 });
 
-// export UserSchema
+//plugin uniqueValidator
+ContactSchema.plugin(uniqueValidator);
+
+// export ContactSchema
 module.exports = mongoose.model("Contact", ContactSchema);

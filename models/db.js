@@ -1,3 +1,5 @@
+// stage - 5
+
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 const file = new FileSync("./models/db.json");
