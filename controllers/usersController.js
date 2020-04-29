@@ -1,4 +1,4 @@
-//stage 5
+//stage 6
 
 // import userSchema
 const User = require("../models/userSchema");
@@ -57,6 +57,19 @@ exports.deleteUser = async (req, res, next) => {
       throw createError(500);
     }
     res.json({ success: true, user: user });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// create the login inside usersController
+exports.login = async (req, res, next) => {
+  const { userName, password } = req.body;
+  try {
+    const user = await User.findOne({ userName, password });
+    if (!user) throw createError(404);
+    res.header("test", "123");
+    res.json({ success: true, message: `${user.userName} welcome` });
   } catch (err) {
     next(err);
   }

@@ -1,4 +1,4 @@
-// stage - 5
+// stage - 6
 
 //import express
 const Route = require("express").Router();
@@ -8,6 +8,7 @@ const {
   getUsers,
   getUser,
   postUser,
+  login,
   putUser,
   deleteUser,
 } = require("../controllers/usersController");
@@ -21,6 +22,8 @@ Route.get("/", getUsers);
 Route.get("/:id", getUser);
 
 Route.post("/", validateUsers(), postUser);
+
+Route.post("/login", login);
 
 Route.put("/:id", putUser);
 
