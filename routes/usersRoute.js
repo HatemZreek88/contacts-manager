@@ -13,21 +13,27 @@ const {
   deleteUser,
 } = require("../controllers/usersController");
 
+// import authenticator
+const auth = require("../middleware/authenticator");
+
+// import rolesAuthenticator
+const isAdmin = require("../middleware/rolesAuthenticator");
+
 // import validateUsers middleware
 const { validateUsers } = require("../middleware/usersValidator");
 
 // usersRoute Methods
-Route.get("/", getUsers);
+Route.get("/", auth, isAdmin, getUsers);
 
-Route.get("/:id", getUser);
+Route.get("/:id", auth, getUser);
 
 Route.post("/", validateUsers(), postUser);
 
 Route.post("/login", login);
 
-Route.put("/:id", putUser);
+Route.put("/:id", auth, putUser);
 
-Route.delete("/:id", deleteUser);
+Route.delete("/:id", auth, deleteUser);
 
 // export usersRoute
 module.exports = Route;

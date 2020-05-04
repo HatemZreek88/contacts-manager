@@ -1,4 +1,4 @@
-//stage 6
+//stage - 7
 
 // import contactSchema
 const Contact = require("../models/contactSchema");
@@ -6,16 +6,14 @@ const Contact = require("../models/contactSchema");
 // import http-errors
 const createError = require("http-errors");
 
+//import jsonWebToken
+const jwt = require("jsonwebtoken");
+
 //requests functions
 exports.getContacts = async (req, res, next) => {
   try {
-    const value = req.header("test");
-    if (value === "123") {
-      const contacts = await Contact.find().populate("user", "-__v");
-      res.json({ success: true, contacts: contacts });
-    } else {
-      throw createError(404);
-    }
+    const contacts = await Contact.find().populate("user");
+    res.json({ success: true, contacts: contacts });
   } catch (err) {
     next(err);
   }
@@ -25,7 +23,8 @@ exports.getContact = async (req, res, next) => {
   const { id } = req.params;
   try {
     const value = req.header("test");
-    if (value === "123") {
+    const check = jwt.verify(value, "secretKey");
+    if (check) {
       const contact = await Contact.findById(id).populate("user", "-__v");
       if (!contact) throw createError(404);
       res.json({ success: true, contact: contact });
