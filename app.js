@@ -17,6 +17,9 @@ const createError = require("http-errors");
 // import morgan
 const logger = require("morgan");
 
+// import config file
+const env = require("./config/config");
+
 // 2. import the files
 
 // import index Route
@@ -37,7 +40,7 @@ const { setCors } = require("./middleware/security");
 const port = process.env.PORT || 3000;
 
 // connect the app.js to the database like seed.js
-mongoose.connect("mongodb://127.0.0.1:27017/my-database", {
+mongoose.connect(env.db, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useFindAndModify: false,

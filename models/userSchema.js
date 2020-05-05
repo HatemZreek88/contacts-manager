@@ -12,6 +12,9 @@ const jwt = require("jsonwebtoken");
 // destructure encrypt and compare
 const { encrypt, compare } = require("../lib/encryption");
 
+// import config file
+const env = require("../config/config");
+
 //destructure Schema
 const { Schema } = mongoose;
 
@@ -42,7 +45,7 @@ const UserSchema = new Schema({
 // generate tokens
 UserSchema.methods.generateAuthToken = function () {
   const user = this;
-  const token = jwt.sign({ _id: user._id }, "secretKey").toString();
+  const token = jwt.sign({ _id: user._id }, env.jwt_key).toString();
   user.tokens.push({ token });
   return token;
 };
@@ -76,7 +79,7 @@ UserSchema.statics.findByToken = function (token) {
   const User = this;
   let decoded;
   try {
-    decoded = jwt.verify(token, "secretKey");
+    decoded = jwt.verify(token, env.jwt_key);
   } catch (err) {}
   return User.findOne({
     _id: decoded._id,
