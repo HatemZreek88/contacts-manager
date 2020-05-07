@@ -1,9 +1,5 @@
-// stage - 5
-
-// import contactsRoute
+//import express
 const Route = require("express").Router();
-
-// 2. import controllers
 
 //import contacts Controllers
 const {
@@ -15,30 +11,23 @@ const {
 } = require("../controllers/contactsController");
 
 // import authenticator
-const auth = require("../middleware/authenticator");
-
-// import rolesAuthenticator
-const isAdmin = require("../middleware/rolesAuthenticator");
+const { auth } = require("../middleware/authenticator");
 
 // import validateInputs middleware
 const { validateContacts } = require("../middleware/contactsValidator");
 
-// 3. requests management
+// GET Routes
+Route.get("/", auth, getContacts);
+Route.get("/:id", getContact);
 
-// create GET request for contacts Route
-Route.get("/", auth, isAdmin, getContacts);
-Route.get("/:id", auth, getContact);
+// POST Route
+Route.post("/", validateContacts(), postContact);
 
-// create POST request for contacts Route
-Route.post("/", validateContacts(), auth, isAdmin, postContact);
+// PUT Route
+Route.put("/:id", putContact);
 
-// create PUT request for contacts Route
-Route.put("/:id", auth, isAdmin, putContact);
-
-// create DELETE request for contacts Route
-Route.delete("/:id", auth, isAdmin, deleteContact);
-
-// 4. export Routes
+// DELETE Route
+Route.delete("/:id", deleteContact);
 
 // export contacts Route
 module.exports = Route;

@@ -1,12 +1,10 @@
-// stage - 6
-
 // import mongoose
 const mongoose = require("mongoose");
 
 // destructure Schema from mongoose
 const { Schema } = mongoose;
 
-// create AddressSchema
+// AddressSchema
 const AddressSchema = new Schema({
   street: { type: String, required: true },
   houseNo: { type: Number, required: true },
@@ -16,5 +14,5 @@ const AddressSchema = new Schema({
   country: { type: String, required: true },
 });
 
-// add AddressSchema to ContactSchema
+// export AddressSchema
 module.exports = AddressSchema;

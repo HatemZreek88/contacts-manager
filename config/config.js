@@ -1,3 +1,8 @@
+// config will read .env file, parse the contents,
+// assign it to process.env,
+//  and return an Object with a parsed key
+//  containing the loaded content or an error key if it failed.
+
 const { env } = process;
 const dot = require("dotenv");
 dot.config();

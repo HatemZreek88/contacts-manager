@@ -16,12 +16,12 @@ const env = require("../config/config");
 // destructure Schema
 const { Schema } = mongoose;
 
-// create UserSchema
-const UserSchema = new Schema({
+// create AdminSchema
+const AdminSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   userName: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
   tokens: [
     {
       token: {
@@ -34,51 +34,51 @@ const UserSchema = new Schema({
 });
 
 // generate tokens
-UserSchema.methods.generateAuthToken = function () {
-  const user = this;
-  const token = jwt.sign({ _id: user._id }, env.jwt_key).toString();
-  user.tokens.push({ token });
+AdminSchema.methods.generateAuthToken = function () {
+  const admin = this;
+  const token = jwt.sign({ _id: admin._id }, env.jwt_key).toString();
+  admin.tokens.push({ token });
   return token;
 };
 
-// filter output for UserSchema
-UserSchema.methods.getPublicFields = function () {
+// filter output for AdminSchema
+AdminSchema.methods.getPublicFields = function () {
   let returnObject = {
     firstName: this.firstName,
     lastName: this.lastName,
-    userName: this.userName,
     email: this.email,
     _id: this._id,
   };
   return returnObject;
 };
 
-// check userLoginPassword
-UserSchema.methods.checkPassword = async function (password) {
-  const user = this;
-  return await compare(password, user.password);
+// check adminLoginPassword
+AdminSchema.methods.checkPassword = async function (password) {
+  const admin = this;
+  return await compare(password, admin.password);
 };
 
-// create encryptedPassword
-UserSchema.pre("save", async function (next) {
+AdminSchema.pre("save", async function (next) {
   this.password = await encrypt(this.password);
   next();
 });
 
-// find users by token
-UserSchema.statics.findByToken = function (token) {
-  const User = this;
+// create encryptedPassword
+AdminSchema.statics.findByToken = function (token) {
+  const Admin = this;
   let decoded;
   try {
     decoded = jwt.verify(token, env.jwt_key);
-  } catch (err) {}
-  return User.findOne({
+  } catch (err) {
+    return "";
+  }
+  return Admin.findOne({
     _id: decoded._id,
   }).select("-password -__v");
 };
 
 //plugin uniqueValidator
-UserSchema.plugin(uniqueValidator);
+AdminSchema.plugin(uniqueValidator);
 
-// export UserSchema
-module.exports = mongoose.model("User", UserSchema);
+// export AdminSchema
+module.exports = mongoose.model("Admin", AdminSchema);

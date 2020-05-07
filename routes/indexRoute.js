@@ -1,12 +1,10 @@
-// Stage - 5
-
-// import indexRoute
+// import express
 const Route = require("express").Router();
 
 //import indexController
 const { indexController } = require("../controllers/indexController");
 
-// indexRoute Methods
+// GET Route
 Route.get("/", indexController);
 
 //export indexRoute

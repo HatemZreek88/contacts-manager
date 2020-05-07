@@ -1,5 +1,3 @@
-//stage - 7
-
 // import contactSchema
 const Contact = require("../models/contactSchema");
 
@@ -9,7 +7,7 @@ const createError = require("http-errors");
 //import jsonWebToken
 const jwt = require("jsonwebtoken");
 
-//requests functions
+//GET contacts method
 exports.getContacts = async (req, res, next) => {
   try {
     const contacts = await Contact.find().populate("user");
@@ -19,6 +17,7 @@ exports.getContacts = async (req, res, next) => {
   }
 };
 
+//GET contact method
 exports.getContact = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -36,6 +35,7 @@ exports.getContact = async (req, res, next) => {
   }
 };
 
+//POST contact method
 exports.postContact = async (req, res, next) => {
   try {
     const contact = new Contact(req.body);
@@ -46,6 +46,7 @@ exports.postContact = async (req, res, next) => {
   }
 };
 
+//PUT contact method
 exports.putContact = async (req, res, next) => {
   const { id } = req.params;
   const contact = req.body;
@@ -60,6 +61,7 @@ exports.putContact = async (req, res, next) => {
   }
 };
 
+//DELETE contact method
 exports.deleteContact = async (req, res, next) => {
   const { id } = req.params;
   try {

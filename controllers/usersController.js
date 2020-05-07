@@ -1,5 +1,3 @@
-//stage 7
-
 // import userSchema
 const User = require("../models/userSchema");
 
@@ -9,7 +7,7 @@ const createError = require("http-errors");
 // import jsonWebToken
 const jwt = require("jsonwebtoken");
 
-//requests functions
+//GET users method
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find();
@@ -19,6 +17,7 @@ exports.getUsers = async (req, res, next) => {
   }
 };
 
+//GET user method
 exports.getUser = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -30,6 +29,7 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
+//POST user method
 exports.postUser = async (req, res, next) => {
   try {
     const user = new User(req.body);
@@ -42,6 +42,7 @@ exports.postUser = async (req, res, next) => {
   }
 };
 
+// PUT user method
 exports.putUser = async (req, res, next) => {
   const { id } = req.params;
   const user = req.body;
@@ -54,6 +55,7 @@ exports.putUser = async (req, res, next) => {
   }
 };
 
+// DELETE user method
 exports.deleteUser = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -67,7 +69,7 @@ exports.deleteUser = async (req, res, next) => {
   }
 };
 
-// create the login inside usersController
+//LOGIN method
 exports.login = async (req, res, next) => {
   const { userName, password } = req.body;
   try {

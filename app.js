@@ -1,7 +1,3 @@
-// stage - 5
-
-// 1. import the modules
-
 // import express
 const express = require("express");
 
@@ -20,8 +16,6 @@ const logger = require("morgan");
 // import config file
 const env = require("./config/config");
 
-// 2. import the files
-
 // import index Route
 const indexRoute = require("./routes/indexRoute");
 
@@ -31,15 +25,16 @@ const contactsRoute = require("./routes/contactsRoute");
 // import user Route
 const usersRoute = require("./routes/usersRoute");
 
+// import admin Route
+const adminsRoute = require("./routes/adminsRoute");
+
 // import setCors middle-ware
 const { setCors } = require("./middleware/security");
 
-// 3. config ports
-
-// tell the web server what port to listen on.
+// config ports
 const port = process.env.PORT || 3000;
 
-// connect the app.js to the database like seed.js
+// connect the app.js to the database
 mongoose.connect(env.db, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
@@ -48,9 +43,7 @@ mongoose.connect(env.db, {
 mongoose.connection.on("error", (err) => console.log(err));
 mongoose.connection.on("open", () => console.log("database is connected "));
 
-// 4. convert data
-
-// convert the data received from client to json format
+// convert  the received data to JSON
 app.use(express.json());
 
 // use morgan middleware
@@ -58,8 +51,6 @@ app.use(logger("dev"));
 
 // use setCors middleware
 app.use(setCors);
-
-// 5. create Routes
 
 // create index Route
 app.use("/", indexRoute);
@@ -70,7 +61,8 @@ app.use("/contacts", contactsRoute);
 // create users Route
 app.use("/users", usersRoute);
 
-// 6. errors management
+// create admins Route
+app.use("/admins", adminsRoute);
 
 // create error handler
 app.use((req, res, next) => {
@@ -81,8 +73,6 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   res.json({ status: err.status, err: err.message });
 });
-
-// 3. config ports
 
 // listen to the port
 app.listen(port, () => console.log("server is running"));

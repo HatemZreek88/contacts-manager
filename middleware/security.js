@@ -1,6 +1,4 @@
-// stage - 5
-
-// create setCors middleware
+// setCors middleware for browser
 exports.setCors = (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(

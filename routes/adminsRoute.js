@@ -1,15 +1,15 @@
 //import express
 const Route = require("express").Router();
 
-// import usersController
+// import adminsController
 const {
-  getUsers,
-  getUser,
-  postUser,
+  getAdmins,
+  getAdmin,
+  postAdmin,
   login,
-  putUser,
-  deleteUser,
-} = require("../controllers/usersController");
+  putAdmin,
+  deleteAdmin,
+} = require("../controllers/adminsController");
 
 // import authenticator
 const { auth } = require("../middleware/authenticator");
@@ -18,20 +18,20 @@ const { auth } = require("../middleware/authenticator");
 const { validateInputs } = require("../middleware/validateInputs");
 
 // GET Routes
-Route.get("/", auth, getUsers);
-Route.get("/:id", getUser);
+Route.get("/", auth, getAdmins);
+Route.get("/:id", auth, getAdmin);
 
 // POST Route
-Route.post("/", validateInputs(), postUser);
+Route.post("/", validateInputs(), auth, postAdmin);
 
 // LOGIN Route
-Route.post("/login", login);
+Route.post("/login", auth, login);
 
 // PUT Route
-Route.put("/:id", putUser);
+Route.put("/:id", auth, putAdmin);
 
 // DELETE Route
-Route.delete("/:id", deleteUser);
+Route.delete("/:id", auth, deleteAdmin);
 
 // export usersRoute
 module.exports = Route;

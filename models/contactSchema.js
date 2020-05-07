@@ -1,5 +1,3 @@
-// stage - 5
-
 // import mongoose
 const mongoose = require("mongoose");
 
@@ -9,10 +7,10 @@ const uniqueValidator = require("mongoose-unique-validator");
 // import AddressSchema
 const AddressSchema = require("./addressSchema");
 
-//destructure Schema
+// destructure Schema
 const { Schema } = mongoose;
 
-// create ContactSchema
+// ContactSchema
 const ContactSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },

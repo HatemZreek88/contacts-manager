@@ -1,5 +1,3 @@
-// stage -5
-
 // import body and validationResult from express validator
 const { body, validationResult } = require("express-validator");
 

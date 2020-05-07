@@ -1,10 +1,8 @@
-// stage -5
-
 // import body and validationResult from express validator
 const { body, validationResult } = require("express-validator");
 
-// create usersValidator
-exports.validateUsers = () => {
+// create validateInputs
+exports.validateInputs = () => {
   return [
     body("email").isEmail().normalizeEmail().withMessage("invalid Email"),
 
