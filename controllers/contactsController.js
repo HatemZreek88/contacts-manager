@@ -1,40 +1,76 @@
-// 1. import modules
+// import contactSchema
+const Contact = require("../models/contactSchema");
 
 // import http-errors
 const createError = require("http-errors");
 
-// 2. create contacts array that holds the contacts data
-const contacts = [];
+//import jsonWebToken
+const jwt = require("jsonwebtoken");
 
-// 3. write controllers
-
-// GET controller
-exports.getContacts = (req, res) => {
-  res.json({ contacts: contacts });
-  //   res.send("GET request received on /contacts");
-};
-
-// POST controller
-exports.postContact = (req, res) => {
-  console.log(req.body);
-  contacts.push(...req.body);
-  res.send("POST request received on /contacts");
-};
-
-// PUT controller
-exports.putContact = (req, res, next) => {
-  console.log(req.params.id);
-  if (req.params.id != "1") {
-    next(createError(500));
+//GET contacts method
+exports.getContacts = async (req, res, next) => {
+  try {
+    const contacts = await Contact.find().populate("user");
+    res.json({ success: true, contacts: contacts });
+  } catch (err) {
+    next(err);
   }
-  res.send("PUT request received on /contacts/:id");
 };
 
-// DELETE controller
-exports.deleteContact = (req, res, next) => {
-  console.log(req.params.id);
-  if (req.params.id != "1") {
-    next(createError(500));
+//GET contact method
+exports.getContact = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const value = req.header("test");
+    const check = jwt.verify(value, "secretKey");
+    if (check) {
+      const contact = await Contact.findById(id).populate("user", "-__v");
+      if (!contact) throw createError(404);
+      res.json({ success: true, contact: contact });
+    }
+
+    throw createError(404);
+  } catch (err) {
+    next(err);
   }
-  res.send("DELETE request received on /contacts/:id");
+};
+
+//POST contact method
+exports.postContact = async (req, res, next) => {
+  try {
+    const contact = new Contact(req.body);
+    await contact.save();
+    res.json({ success: true, contact: contact });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//PUT contact method
+exports.putContact = async (req, res, next) => {
+  const { id } = req.params;
+  const contact = req.body;
+  try {
+    const updatecontact = await Contact.findByIdAndUpdate(id, contact, {
+      new: true,
+    });
+    if (!updatecontact) throw createError(500);
+    res.json({ success: true, contact: updatecontact });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//DELETE contact method
+exports.deleteContact = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const contact = await Contact.findByIdAndDelete(id);
+    if (!contact) {
+      throw createError(500);
+    }
+    res.json({ success: true, contact: contact });
+  } catch (err) {
+    next(err);
+  }
 };

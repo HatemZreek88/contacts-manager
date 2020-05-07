@@ -1,19 +1,11 @@
-// 1. import Routes
-
-// import index Route
+// import express
 const Route = require("express").Router();
 
-// 2. import controllers
-
-//import index Controller
+//import indexController
 const { indexController } = require("../controllers/indexController");
 
-// 3. requests management
-
-// create GET request for index Route
+// GET Route
 Route.get("/", indexController);
 
-// 4. export Routes
-
-// export index Route
+//export indexRoute
 module.exports = Route;

@@ -1,15 +1,20 @@
-// 1. import the modules
-
 // import express
 const express = require("express");
 
 // create the server
 const app = express();
 
+// import mongoose
+const mongoose = require("mongoose");
+
 // import http-errors
 const createError = require("http-errors");
 
-// 2. import the files
+// import morgan
+const logger = require("morgan");
+
+// import config file
+const env = require("./config/config");
 
 // import index Route
 const indexRoute = require("./routes/indexRoute");
@@ -17,17 +22,35 @@ const indexRoute = require("./routes/indexRoute");
 // import contacts Route
 const contactsRoute = require("./routes/contactsRoute");
 
-// 3. config ports
+// import user Route
+const usersRoute = require("./routes/usersRoute");
 
-// tell the web server what port to listen on.
+// import admin Route
+const adminsRoute = require("./routes/adminsRoute");
+
+// import setCors middle-ware
+const { setCors } = require("./middleware/security");
+
+// config ports
 const port = process.env.PORT || 3000;
 
-// 4. convert data
+// connect the app.js to the database
+mongoose.connect(env.db, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useFindAndModify: false,
+});
+mongoose.connection.on("error", (err) => console.log(err));
+mongoose.connection.on("open", () => console.log("database is connected "));
 
-// convert the data received from client to json format
+// convert  the received data to JSON
 app.use(express.json());
 
-// 5. create Routes
+// use morgan middleware
+app.use(logger("dev"));
+
+// use setCors middleware
+app.use(setCors);
 
 // create index Route
 app.use("/", indexRoute);
@@ -35,7 +58,11 @@ app.use("/", indexRoute);
 // create contacts Route
 app.use("/contacts", contactsRoute);
 
-// 6. errors management
+// create users Route
+app.use("/users", usersRoute);
+
+// create admins Route
+app.use("/admins", adminsRoute);
 
 // create error handler
 app.use((req, res, next) => {
@@ -46,8 +73,6 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   res.json({ status: err.status, err: err.message });
 });
-
-// 3. config ports
 
 // listen to the port
 app.listen(port, () => console.log("server is running"));

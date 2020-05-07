@@ -4,15 +4,24 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "node build --output public"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^4.0.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "http-errors": "^1.7.3"
+    "express-validator": "^6.4.0",
+    "http-errors": "^1.7.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.10",
+    "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.3"
   }
 }

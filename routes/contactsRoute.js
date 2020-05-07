@@ -1,33 +1,33 @@
-// 1. import Routes
-
-// import contacts Route
+//import express
 const Route = require("express").Router();
-
-// 2. import controllers
 
 //import contacts Controllers
 const {
   getContacts,
+  getContact,
   postContact,
   putContact,
   deleteContact,
 } = require("../controllers/contactsController");
 
-// 3. requests management
+// import authenticator
+const { auth } = require("../middleware/authenticator");
 
-// create GET request for contacts Route
-Route.get("/", getContacts);
+// import validateInputs middleware
+const { validateContacts } = require("../middleware/contactsValidator");
 
-// create POST request for contacts Route
-Route.post("/", postContact);
+// GET Routes
+Route.get("/", auth, getContacts);
+Route.get("/:id", getContact);
 
-// create PUT request for contacts Route
+// POST Route
+Route.post("/", validateContacts(), postContact);
+
+// PUT Route
 Route.put("/:id", putContact);
 
-// create DELETE request for contacts Route
+// DELETE Route
 Route.delete("/:id", deleteContact);
-
-// 4. export Routes
 
 // export contacts Route
 module.exports = Route;
