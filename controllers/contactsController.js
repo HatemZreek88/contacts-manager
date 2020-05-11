@@ -7,6 +7,9 @@ const createError = require("http-errors");
 //import jsonWebToken
 const jwt = require("jsonwebtoken");
 
+// import config file
+const env = require("../config/config");
+
 //GET contacts method
 exports.getContacts = async (req, res, next) => {
   try {
@@ -21,15 +24,9 @@ exports.getContacts = async (req, res, next) => {
 exports.getContact = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const value = req.header("test");
-    const check = jwt.verify(value, "secretKey");
-    if (check) {
-      const contact = await Contact.findById(id).populate("user", "-__v");
-      if (!contact) throw createError(404);
-      res.json({ success: true, contact: contact });
-    }
-
-    throw createError(404);
+    const contact = await Contact.findById(id).populate("user", "-__v");
+    if (!contact) throw createError(404);
+    res.json({ success: true, contact: contact });
   } catch (err) {
     next(err);
   }

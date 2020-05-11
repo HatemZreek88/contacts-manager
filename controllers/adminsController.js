@@ -21,7 +21,7 @@ exports.getAdmins = async (req, res, next) => {
 exports.getAdmin = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const Admin = await Admin.findById(id);
+    const admin = await Admin.findById(id);
 
     if (!admin) throw createError(404);
     res.json({ success: true, admin: admin });
@@ -73,11 +73,12 @@ exports.deleteAdmin = async (req, res, next) => {
 // LOGIN method
 exports.login = async (req, res, next) => {
   const { userName, password } = req.body;
+  // console.log(userName);
   try {
     const admin = await Admin.findOne({ userName });
-
+    console.log(userName);
     const valid = await admin.checkPassword(password);
-
+    // console.log(password);
     if (!valid) throw createError(403);
     let token = admin.generateAuthToken();
     const data = admin.getPublicFields();
