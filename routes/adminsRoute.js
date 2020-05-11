@@ -25,7 +25,7 @@ Route.get("/:id", auth, getAdmin);
 Route.post("/", validateInputs(), auth, postAdmin);
 
 // LOGIN Route
-Route.post("/login", auth, login);
+Route.post("/login", login);
 
 // PUT Route
 Route.put("/:id", auth, putAdmin);
